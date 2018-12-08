@@ -72,7 +72,6 @@ class App extends React.Component {
                 this.setState({error: "Erro: Label mal definidas na linha" + i});
                 return;
             }
-            console.log("labels", labels);
         }
 
         for(let i = 0; i < code.length; i++)
@@ -123,7 +122,6 @@ class App extends React.Component {
                 opr = '000';
                 temp = [0, line[1]];
             }
-            console.log(temp);
             sel = selToBin(temp[1]);
             if(sel === -1) {
                 this.setState({ error: "Erro: Sintaxe errada na linha " + i });
@@ -185,7 +183,7 @@ class App extends React.Component {
                 ),
                 e(
                     AssemblerView,
-                    { instructions: this.state.instructions, error: this.state.error, outputType: this.state.outputType }
+                    { code: this.state.code, instructions: this.state.instructions, error: this.state.error, outputType: this.state.outputType }
                 )
             )
         )
@@ -200,6 +198,8 @@ class AssemblerEditor extends React.Component {
     }
 
     handleChange(event) {
+        let lines = event.target.value.split("\n");
+        if(lines != undefined && lines.length > 32) return;
         this.setState({ value: event.target.value });
         this.props.onChange(event.target.value.split('\n'));
 
@@ -246,7 +246,7 @@ class AssemblerView extends React.Component
         } else {
             bin = this.props.instructions.map((line, i) => {
                 if(this.props.outputType == 1)
-                    line = i + ": dado = 8'" + line;
+                    line = i + ": dado = 8'" + line + ";" + " //" + this.props.code[i];
                 return e(
                     'span',
                     { key: i },
