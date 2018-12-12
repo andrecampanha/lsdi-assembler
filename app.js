@@ -246,7 +246,7 @@ class AssemblerView extends React.Component
         } else {
             bin = this.props.instructions.map((line, i) => {
                 if(this.props.outputType == 1)
-                    line = i + ": dado = 8'" + line + ";" + " //" + this.props.code[i];
+                    line = i + ": dado = 8'b" + line + ";" + " //" + this.props.code[i];
                 return e(
                     'span',
                     { key: i },
